@@ -131,7 +131,10 @@ env.bak/
 venv.bak/
 
 # Big Data Folders
-/data/
+/data/audio_download/
+/data/augmented_audio/
+/data/test_set_covers.pkl
+/data/coversongs/
 
 # Spyder project settings
 .spyderproject
