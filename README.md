@@ -17,7 +17,7 @@ Our data primarily came from the Million Song Dataset as well as several Kaggle 
 ## EDA + Feature Engineering
 ![](images/genre_dist.png)
 ![](images/tag_wordcloud.png)
-![](images/tag_wordcloud.png)
+![](images/tag_counts.png)
 #### Augmenting Audio 
 #### Log-Mel Spectrograms
 ## Modeling
