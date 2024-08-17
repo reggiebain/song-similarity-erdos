@@ -15,6 +15,9 @@ Our data primarily came from the Million Song Dataset as well as several Kaggle 
 - The model minimizes the *triplet-loss* function between a triplet of (anchor, similar, different) audio files to the degree that it will differentite between similar and different audio files.
 - The model beats a baseline of calculating the triplet-loss between audio files **without** feeding those audio files into the model. 
 ## EDA + Feature Engineering
+![](images/genre_dist.png)
+![](images/tag_wordcloud.png)
+![](images/tag_wordcloud.png)
 #### Augmenting Audio 
 #### Log-Mel Spectrograms
 ## Modeling
