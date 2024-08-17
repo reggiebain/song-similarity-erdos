@@ -39,12 +39,12 @@ Where:
 #### ResNet18
 - ResNet-18 is a deep convolutional neural network (CNN), widely recognized for its ability to learn rich feature representations. It has 18 layers that include convolutional layers, pooling, and fully connected layers, organized into a series of so-called *residual blocks* which aim to address vanishing gradients during backpropagation. Residual or "skip" connections bypass one or more layers to allow the input to a block to be added directly to the output after passing through the block's convolutional layers. A diagram of the the original Resnet-18 architecture is shown below, courtesy of [].
 
-![](images/Original-ResNet-18-Architecture.png "Feature Correlations")
+![](images/Original-ResNet-18-Architecture.png "ResNet Architecture")
 
 - We used ResNet-18 to create embeddings of songs tha could then be used to calculate triplet loss. In theory, the network can extract feature embeddings that capture essential characteristics of each song (through capturing features of the images of log-mel spectrograms). The model is trained to minimize a triplet loss function, which aims to make embeddings where songs labeled as similar are closer in the embedding space and embeddings of songs labeled as dissimilar are pushed further apart.
 
-- For fun, I asked AI to generate an image of Resnet-18. Here is what it produced:
-![](images/resnet18diagram.png "Resnet from AI Diagram")
+- For fun, I asked AI to generate an image of Resnet-18. Here is what it produced (it's not super useful):
+![](images/resnet_ai.jpeg "Resnet from AI Diagram")
 
 #### DistilHuBERT
 ## Results
