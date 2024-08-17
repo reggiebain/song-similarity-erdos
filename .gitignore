@@ -136,6 +136,9 @@ venv.bak/
 /data/test_set_covers.pkl
 /data/coversongs/
 
+# Large model files
+/modeling/resnet18_model_weights.pth
+
 # Spyder project settings
 .spyderproject
 .spyproject
