@@ -15,6 +15,7 @@ Our data primarily came from the Million Song Dataset as well as several Kaggle 
 - The model minimizes the *triplet-loss* function between a triplet of (anchor, similar, different) audio files to the degree that it will differentite between similar and different audio files.
 - The model beats a baseline of calculating the triplet-loss between audio files **without** feeding those audio files into the model. 
 ## EDA + Feature Engineering
+![](images/year_distribution.png)
 ![](images/genre_dist.png)
 ![](images/tag_wordcloud.png)
 ![](images/tag_counts.png)
@@ -23,9 +24,12 @@ Our data primarily came from the Million Song Dataset as well as several Kaggle 
 ## Modeling
 ### Triplet Loss
 
-The triplet loss is defined as:
+Triplet loss is a type of loss function used in machine learning, particularly in tasks involving similarity learning, such as facial recognition, image retrieval, and in your case, song similarity detection. The goal of triplet loss is to ensure that embeddings (representations) of similar items are closer together in the embedding space, while embeddings of dissimilar items are further apart.
 
-$\mathcal{L}(A, P, N) = \max\{0, \,\|f(A) - f(P)\|_2 - \|f(A) - f(N)\|_2 + \alpha\}$
+Low Triplet Loss: Indicates that the model successfully distinguishes between similar and dissimilar items, clustering similar items close together and pushing dissimilar items further apart in the embedding space.
+High Triplet Loss: Suggests that the model struggles to differentiate between similar and dissimilar items, with similar items possibly being far apart or dissimilar items being too close.
+
+$\mathcal{L}(A, P, N) = \max\Big\{0, \,\|f(A) - f(P)\|_2 - \|f(A) - f(N)\|_2 + \alpha\Big\}$
 
 Where:
 - $A$ is the anchor sample.
@@ -36,7 +40,7 @@ Where:
 - $\alpha$ is the margin, a positive constant that ensures a gap between the positive and negative pairs.
 
 ### Transfer Learning
-#### ResNet18
+#### ResNet-18
 - ResNet-18 is a deep convolutional neural network (CNN), widely recognized for its ability to learn rich feature representations. It has 18 layers that include convolutional layers, pooling, and fully connected layers, organized into a series of so-called *residual blocks* which aim to address vanishing gradients during backpropagation. Residual or "skip" connections bypass one or more layers to allow the input to a block to be added directly to the output after passing through the block's convolutional layers. A diagram of the the original Resnet-18 architecture is shown below, courtesy of [].
 
 ![](images/Original-ResNet-18-Architecture.png "ResNet Architecture")
@@ -48,6 +52,10 @@ Where:
 
 #### DistilHuBERT
 ## Results
+#### Resnet-18
+- Fine tuning Resnet-18 on a dataset of 10k triplets of songs. Positive songs were generated using augmentations of the anchors and all layers of the ResNet were frozen except for the layers in the 4th and final residual block and the final fully connected layer. 
+- The batch size was 64 and the learning rate was set initially at $10^{-4}$ We saw the following training/validation curves vs. the "no-model" euclidean distance baseline. At its best after 3 epochs, the validation loss was 0.2610, **a 20.5% improvement over the baseline.**
+![](images/resnet-loss-plot-batch64-frozen.png "Resnet 18 w/ Frozen Layers and Batch Size 64")
 ## Notable Roadblocks
 #### Compute
 - Any amateur deep learning project will face compute issues and this was no exception. We made use of the free GPU services offered by both Google Colab and Kaggle, but given the limited time per week the free versions offer, we had to use CPUs in many cases to test model hyperparameters, scrape data, etc. This resulted in extremely long loading times in many cases and limited (given the project timeframe) ability to test every hyperparameter and model architecture to the full extent we desired. For example, fine tuning ResNet18 on 10k triplets of songs for 10 epochs took ~24 hours, even when most model parameters were frozen.
