@@ -31,5 +31,7 @@ Our data primarily came from the Million Song Dataset as well as several Kaggle 
 - Various APIs impose strict rate limiting often making data scraping time consuming. We used standard techniques where we could to aid with this, but to truly train deep learning architectures one needs far more data than we were able to cobble together.
 ## References
 http://millionsongdataset.com/
+
 https://www.kaggle.com/datasets/undefinenull/million-song-dataset-spotify-lastfm
+
 https://www.last.fm/home
