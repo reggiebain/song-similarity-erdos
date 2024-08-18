@@ -43,8 +43,7 @@ Where:
 
 - We used ResNet-18 to create embeddings of songs tha could then be used to calculate triplet loss. In theory, the network can extract feature embeddings that capture essential characteristics of each song (through capturing features of the images of log-mel spectrograms). The model is trained to minimize a triplet loss function, which aims to make embeddings where songs labeled as similar are closer in the embedding space and embeddings of songs labeled as dissimilar are pushed further apart.
 
-- For fun, I asked AI to generate an image of Resnet-18. Here is what it produced (it's not super useful):
-![](images/resnet_ai.jpeg "Resnet from AI Diagram")
+
 ### DistilHuBERT
 ### CNN from Scratch
 ## Results
