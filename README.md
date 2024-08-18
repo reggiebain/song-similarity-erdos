@@ -24,10 +24,7 @@ Our data primarily came from the Million Song Dataset as well as several Kaggle 
 ## Modeling
 ### Triplet Loss
 
-Triplet loss is a type of loss function used in machine learning, particularly in tasks involving similarity learning, such as facial recognition, image retrieval, and in your case, song similarity detection. The goal of triplet loss is to ensure that embeddings (representations) of similar items are closer together in the embedding space, while embeddings of dissimilar items are further apart.
-
-Low Triplet Loss: Indicates that the model successfully distinguishes between similar and dissimilar items, clustering similar items close together and pushing dissimilar items further apart in the embedding space.
-High Triplet Loss: Suggests that the model struggles to differentiate between similar and dissimilar items, with similar items possibly being far apart or dissimilar items being too close.
+Triplet loss is a loss function often used for tasks such as facial recognition. It aims to drive a model to create embeddings where similar items are closer together in the embedding space and dissimilar items are further apart. Smaller values (closer to 0) indicate that the model is successfully distinguishing between the anchor and negatives (in our case, the randomly chosen different songs) while clustering the anchor and positives (in our case the augmented songs).
 
 $\mathcal{L}(A, P, N) = \max(0, \|f(A) - f(P)\|_2 - \|f(A) - f(N)\|_2 + \alpha)$
 
