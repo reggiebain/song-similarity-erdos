@@ -29,7 +29,7 @@ Triplet loss is a type of loss function used in machine learning, particularly i
 Low Triplet Loss: Indicates that the model successfully distinguishes between similar and dissimilar items, clustering similar items close together and pushing dissimilar items further apart in the embedding space.
 High Triplet Loss: Suggests that the model struggles to differentiate between similar and dissimilar items, with similar items possibly being far apart or dissimilar items being too close.
 
-$\mathcal{L}(A, P, N) = \max\Big\{0, \,\|f(A) - f(P)\|_2 - \|f(A) - f(N)\|_2 + \alpha\Big\}$
+$\mathcal{L}(A, P, N) = \max\{0, \,\|f(A) - f(P)\|_2 - \|f(A) - f(N)\|_2 + \alpha\}$
 
 Where:
 - $A$ is the anchor sample.
