@@ -18,7 +18,7 @@ Our data primarily came from the Million Song Dataset as well as several Kaggle 
 - We primarily focused on a Kaggle dataset that provided nearly 50k working links to previews of songs that could be used for audio analysis. The graphs below show some basic information about the release year, genre, and other tags of the provided songs.
 ![](images/genres_years.png)
 ![](images/tag_counts.png)
-![](images/metadata.png)
+
 #### Augmenting Audio 
 #### Log-Mel Spectrograms
 ## Modeling
