@@ -16,9 +16,7 @@ Our data primarily came from the Million Song Dataset as well as several Kaggle 
 - The model beats a baseline of calculating the triplet-loss between audio files **without** feeding those audio files into the model. 
 ## EDA + Feature Engineering
 - We primarily focused on a Kaggle dataset that provided nearly 50k working links to previews of songs that could be used for audio analysis. The graphs below show some basic information about the release year, genre, and other tags of the provided songs.
-![](images/)
-![](images/year_distribution.png)
-![](images/genre_dist.png)
+![](images/genres_years.png)
 ![](images/tag_wordcloud.png)
 ![](images/tag_counts.png)
 
