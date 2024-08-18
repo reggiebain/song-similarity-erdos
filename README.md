@@ -50,6 +50,7 @@ Where:
 ## Results
 #### Resnet-18
 - We fine tuned Resnet-18 on a dataset of 10k triplets of songs. Positive songs were generated using augmentations of the anchors and all layers of the ResNet were frozen except for the layers in the 4th and final residual block and the final fully connected layer. 
+- We compared the model against a baseline where we calculated the triplet loss of the anchor, positive, and negative song **without** feeding it into the model, averaging this value over each batch.
 - Using a batch size of 64, dropout rate of 0.5, and a learning rate of $10^{-4}$, we saw the following training/validation curves vs. the "no-model" euclidean distance baseline. At its best after 3 epochs, the validation loss was 0.2610, **a 20.5% improvement over the baseline.**
 ![](images/resnet-loss-plot-batch64-frozen.png "Resnet 18 w/ Frozen Layers and Batch Size 64")
 - To address overfitting, we then tried a batch size of 32, dropout rate of 0.8, and introduced a 0.4 weight decay parameter. The results are shown below (TODO):
