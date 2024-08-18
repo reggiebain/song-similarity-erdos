@@ -36,8 +36,7 @@ Where:
 - $\|\cdots\|_2$ denotes the Euclidean distance.
 - $\alpha$ is the margin, a positive constant that ensures a gap between the positive and negative pairs.
 
-### Transfer Learning
-#### ResNet-18
+### ResNet-18
 - ResNet-18 is a deep convolutional neural network (CNN), widely recognized for its ability to learn rich feature representations. It has 18 layers that include convolutional, pooling, and fully connected layers. The architecture is organized into a series of so-called *residual blocks* which aim to address vanishing gradients during backpropagation. Residual or "skip" connections bypass one or more layers to allow the input to a block to be added directly to the output after passing through the block's convolutional layers. A diagram of the the original Resnet-18 architecture is shown below, courtesy of [].
 
 ![](images/Original-ResNet-18-Architecture.png "ResNet Architecture")
@@ -46,7 +45,7 @@ Where:
 
 - For fun, I asked AI to generate an image of Resnet-18. Here is what it produced (it's not super useful):
 ![](images/resnet_ai.jpeg "Resnet from AI Diagram")
-#### DistilHuBERT
+### DistilHuBERT
 ### CNN from Scratch
 ## Results
 #### Resnet-18
