@@ -46,13 +46,14 @@ Where:
 
 - For fun, I asked AI to generate an image of Resnet-18. Here is what it produced (it's not super useful):
 ![](images/resnet_ai.jpeg "Resnet from AI Diagram")
-
 #### DistilHuBERT
+### CNN from Scratch
 ## Results
 #### Resnet-18
-- Fine tuning Resnet-18 on a dataset of 10k triplets of songs. Positive songs were generated using augmentations of the anchors and all layers of the ResNet were frozen except for the layers in the 4th and final residual block and the final fully connected layer. 
-- The batch size was 64 and the learning rate was set initially at $10^{-4}$ We saw the following training/validation curves vs. the "no-model" euclidean distance baseline. At its best after 3 epochs, the validation loss was 0.2610, **a 20.5% improvement over the baseline.**
+- We fine tuned Resnet-18 on a dataset of 10k triplets of songs. Positive songs were generated using augmentations of the anchors and all layers of the ResNet were frozen except for the layers in the 4th and final residual block and the final fully connected layer. 
+- Using a batch size of 64, dropout rate of 0.5, and a learning rate of $10^{-4}$, we saw the following training/validation curves vs. the "no-model" euclidean distance baseline. At its best after 3 epochs, the validation loss was 0.2610, **a 20.5% improvement over the baseline.**
 ![](images/resnet-loss-plot-batch64-frozen.png "Resnet 18 w/ Frozen Layers and Batch Size 64")
+- To address overfitting, we then tried a batch size of 32, dropout rate of 0.8, and introduced a 0.4 weight decay parameter. The results are shown below (TODO):
 ## Notable Roadblocks
 #### Compute
 - Any amateur deep learning project will face compute issues and this was no exception. We made use of the free GPU services offered by both Google Colab and Kaggle, but given the limited time per week the free versions offer, we had to use CPUs in many cases to test model hyperparameters, scrape data, etc. This resulted in extremely long loading times in many cases and limited (given the project timeframe) ability to test every hyperparameter and model architecture to the full extent we desired. For example, fine tuning ResNet18 on 10k triplets of songs for 6 epochs took ~7 hours on a Kaggle GPU, even when most model parameters were frozen.
