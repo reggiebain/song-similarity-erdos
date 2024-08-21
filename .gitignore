@@ -140,7 +140,7 @@ venv.bak/
 #/modeling/resnet18_model_weights.pth
 
 # Unwanted notebooks
-./modeling/fine-tuning-pretrained.ipynb
+/modeling/fine-tuning-pretrained.ipynb
 ./modeling/classification-model.ipynb
 /Users/reggiebain/erdos/song-similarity-erdos/modeling/fine-tuning-pretrained.ipynb
 # Spyder project settings
