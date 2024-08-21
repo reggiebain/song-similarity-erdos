@@ -6,7 +6,9 @@ We worked on developing a model using several different approaches to analyze th
 ## Background
 Throughout music history, composers and song writers have borrowed musical elements from each other. Similar chord progressions, rhythms, and melodies can often be found spanning different musical styles, genres, and eras. Our interest in the topic was sparked by many famous examples of composers throughout history borrowing musical structures and motifs from each other. One can hear obvious similarities in the works of Bach and Vivaldi from the baroque era and Mozart/Hayden from the classical era. In the music for Star Wars in 1977, John Williams incorporated similar leitmotifs as composer Igor Stravinsky used in his famous 1913 balet, *The Rite of Spring*. In modern music, courts have adjuticated disputes over similarities between songs. In 2015, for example, artists Robin Thicke and Pharrell Williams were sued for allegedly plagiarizing Marvin Gaye's song "Got to Give it Up" when writing their song "Blurred Lines." Marvin Gaye's estate ultimately won the $7.4 million case. These are just a few examples of audible similarities between musical works. Our project aimed to use deep learning to assess the similarity between music to potentially establish a more robust way to potentially detect music plagiarism.
 ## Dataset(s)
-Our data primarily came from the Million Song Dataset [1] as well as several Kaggle datasets [2] where authors paired known songs with links to preview of the songs from various APIs. We also wrote scripts to find song previews where we did not already have them. We took 30s previews of the songs (in some case taking 10s clips of that 30s due to limitations in both compute and storage), and fed them into Librosa, a Python package built to work with and extract key features from audio. We ultimately focused on the audio from a set of around 50,000 songs that can be found in /data/music_info.csv, a data set containing meta data and preview links to songs from the following Kaggle dataset . This dataset also included information from the LastFM project [4] and a handful of engineered features such as *danceability, liveness, loudness* and many others., a project that aimed to compile songs from the Million Song Dataset and calculate a variety of features ranging from genre tags as well as identify cover songs, and track various musical features of songs. Of primary interest to us was the raw audio of songs rather than meta data or features calculated using said metadata.
+- Our data primarily came from the Million Song Dataset [1] as well as several Kaggle datasets [2] where authors paired known songs with links to preview of the songs from various APIs. We also wrote scripts to find song previews where we did not already have them. 
+- We took 30s previews of the songs (in some case taking 10s clips of that 30s due to limitations in both compute and storage), and fed them into Librosa, a Python package built to work with and extract key features from audio. Although 30s clips are, obviously, not ideal for assessing the overall similarity of songs, we feel it is enough to capture many key features/sections of audio and can provide good enough data for a proof of concept of our methodology. This is also all that was available from mainstream APIs for obtaining 10k+ audio samples in a reasonable amount of time without significant cloud storage/compute.
+- We ultimately focused on the audio from a set of around 50,000 songs that can be found in /data/music_info.csv, a data set containing meta data and preview links to songs from the Kaggle dataset at [2]. This dataset also included information from the LastFM project [4] and a handful of engineered features such as *danceability, liveness, loudness* and many others., a project that aimed to compile songs from the Million Song Dataset and calculate a variety of features ranging from genre tags as well as identify cover songs, and track various musical features of songs. Of primary interest to us was the raw audio of songs rather than meta data or features calculated using said metadata.
 ## Stakeholders
 - Artists looking to ensure their work is not plagiarized by others
 - Record companies and courts looking to have an objective measure of song similarity
@@ -20,7 +22,22 @@ Our data primarily came from the Million Song Dataset [1] as well as several Kag
 ![](images/tag_counts.png)
 ![](images/metadata.png)
 #### Augmenting Audio 
+- In order to generate triplets of anchors (a given song), positives (songs very similar to the anchor), and negatives (songs different from the anchor) we needed to match each song in our dataset with a similar and "not similar" song. 
+- **Negatives**: We selected random different songs within the dataset for each of our anchors. In some cases, random other songs will be likely have rather similar features to the anchor and in some cases they will be very different. This provides a diversity of harder and easier negatives for the model to learn.
+- **Positives:** We used the Python package Audiomentations to perform augmentations to each the anchor songs and generate an altered, but still very similar audio file. For each of the songs in our dataset, we used a variety of augmentations such as: adding noise, time stretching, pitch shifting, and signal to noise ratio alterations. **NOTE:** One way to improve our data quality would be to make some of these positives cover songs of the originals, but gathering a large amount of these was a challenge, and we reserved them primarily for testing the model.
 #### Log-Mel Spectrograms
+- Our analysis primarily focused on modeling the log-mel spectrograms of raw audio. A mel spectrogram is a plot of the frequencies present in an audio clip over time, mapped onto the *mel scale* [5]. The mel scale is a perceptual scale that reflects how humans perceive sound, where frequencies are spaced in a way that better matches human hearing compared to a linear frequency scale.
+
+    - **X-Axis -- Time**: Each point is a specific time interval derived from dividing the audio into small, overlapping windows.
+    - **Y-Axis -- Frequency**: Frequencies converted to log-mel scale (the log of the mel scale)
+
+Frequency (y-axis): The vertical axis represents frequency, but instead of linear frequency, it uses the mel scale. This scale is more aligned with human hearing, compressing higher frequencies and expanding lower frequencies to better match how we perceive sound.
+
+Amplitude/Intensity (color scale): The color or intensity at each point on the plot indicates the amplitude or energy of the signal at a specific frequency and time. Often, the amplitude is converted to a logarithmic scale (creating a log mel spectrogram) to handle the wide range of signal intensities, making both quiet and loud parts more visible.
+
+So, a mel spectrogram essentially shows how the power of different frequency components of an audio signal evolves over time, with the frequency axis scaled to reflect human auditory perception.
+
+![](images/mel_spec_example.png "Mel Spec Example")
 ## Modeling
 ### Triplet Loss
 
@@ -37,7 +54,7 @@ Where:
 - $\alpha$ is the margin, a positive constant that ensures a gap between the positive and negative pairs.
 
 ### ResNet-18
-- ResNet-18 [4] is a deep convolutional neural network (CNN), widely recognized for its ability to learn rich feature representations. It has 18 layers that include convolutional, pooling, and fully connected layers. The architecture is organized into a series of so-called *residual blocks* which aim to address vanishing gradients during backpropagation. Residual or "skip" connections bypass one or more layers to allow the input to a block to be added directly to the output after passing through the block's convolutional layers. A diagram of the the original Resnet-18 architecture is shown below, courtesy of [].
+- ResNet-18 [4] is a deep convolutional neural network (CNN), widely recognized for its ability to learn rich feature representations. It has 18 layers that include convolutional, pooling, and fully connected layers. The architecture is organized into a series of so-called *residual blocks* which aim to address vanishing gradients during backpropagation. Residual or "skip" connections bypass one or more layers to allow the input to a block to be added directly to the output after passing through the block's convolutional layers. A diagram of the the original Resnet-18 architecture is shown below, courtesy of [4].
 
 ![](images/Original-ResNet-18-Architecture.png "ResNet Architecture")
 
@@ -50,9 +67,10 @@ Where:
 #### Resnet-18
 - We fine tuned Resnet-18 on a dataset of 10k triplets of songs. Positive songs were generated using augmentations of the anchors and all layers of the ResNet were frozen except for the layers in the 4th and final residual block and the final fully connected layer. 
 - We compared the model against a baseline where we calculated the triplet loss of the anchor, positive, and negative song **without** feeding it into the model, averaging this value over the validation set.
-- Using a batch size of 64, dropout rate of 0.5, and a learning rate of $10^{-4}$, we saw the following training/validation curves vs. the "no-model" baseline. At its best after 3 epochs, the validation loss was 0.2610, **a 20.5% improvement over the baseline.**
-![](images/resnet-loss-plot-batch64-frozen.png "Resnet 18 w/ Frozen Layers and Batch Size 64")
-- To address overfitting, we then tried a batch size of 32, dropout rate of 0.8, and introduced a 0.4 weight decay parameter. The results are shown below (TODO):
+- We varied hyperparameters such as batch size, dropout, weight decay, and learning rate, all of which yielded largely similar results. We often observed signficiant over fitting after just 3-5 epochs, even with most of the layers frozen and dropout as high as 0.8. With more GPU compute, we could do a more thorough grid search and train for dozens/hundreds of epochs at a time, although it doesn't seem that validation loss would be significantly improved as it levels off around 3-5 epochs.
+- **Best Results:** We found the best performance using a batch size of 64, dropout rate of 0.5, and a learning rate of $10^{-4}$ which yielded following training/validation curves vs. the "no-model" baseline. At its best after 3 epochs, the validation loss was 0.2292, **a 77.0% improvement over the baseline.**
+
+![](images/resnet-loss-plot-64-frozen-basenormalized.png "Resnet 18 w/ Frozen Layers and Batch Size 64")
 ## Notable Roadblocks
 #### Compute
 - Any amateur deep learning project will face compute issues and this was no exception. We made use of the free GPU services offered by both Google Colab and Kaggle, but given the limited time per week the free versions offer, we had to use CPUs in many cases to test model hyperparameters, scrape data, etc. This resulted in extremely long loading times in many cases and limited (given the project timeframe) ability to test every hyperparameter and model architecture to the full extent we desired. For example, fine tuning ResNet18 on 10k triplets of songs for 6 epochs took ~7 hours on a Kaggle GPU, even when most model parameters were frozen.
@@ -68,3 +86,5 @@ Where:
 [3] https://www.last.fm/home
 
 [4] https://link.springer.com/article/10.1007/s10916-019-1475-2 
+
+[5] https://en.wikipedia.org/wiki/Mel_scale 

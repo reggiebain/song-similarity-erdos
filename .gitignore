@@ -137,7 +137,11 @@ venv.bak/
 /data/coversongs/
 
 # Large model files
-/modeling/resnet18_model_weights.pth
+#/modeling/resnet18_model_weights.pth
+
+# Unwanted notebooks
+/modeling/fine-tune-pretrained.ipynb
+/modeling/classification-model.ipynb
 
 # Spyder project settings
 .spyderproject
