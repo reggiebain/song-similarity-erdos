@@ -4,7 +4,7 @@
 - We trained our models (such as fine tuning ResNet-18 and training a CNN from scratch) on a set of triplets (anchors, positives, negatives) where positives were created using augmentations of the anchors and negatives are different songs chosen randomly.
 - Ideally, we would have sets of triplets that include either (1) different recordings of the same song or (2) covers of songs by different groups. Such data does exist, but is not readily available for ML purposes and does not exist in high enough quantity for any meaningful training of deep learning models.
 #### Creating Better Triplets
-- A great deal of thought was put into how to create better triplets, and we experimented with various methods for doing so.
+- We experimented with various methods for doing so including trying different distance metrics, clustering methods for identifying similar/different groups of songs based on audio and/or meta data, etc.
 ## Results on Real Covers
 - Although our models (specifically the fine tuned ResNet-18 and CNN) performed well on our training/validation triplets described above, we wanted to try deploying the model on a set of triplets that included real covers of songs (which we would ideally have trained on if more were easily accessible). We used the Kaggle dataset found at [1], which contains songs and known covers of these songs and tailored it to our own needs. Our data set can be found at [2].
 - Creating embeddings using our various models, we looked at several metrics. We calculated the nearest neighbor accuracy, which measures in how many cases did the model output embeddings where anchor and positive were closer (via euclidean distance) than anchor and negative. 
