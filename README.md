@@ -76,7 +76,7 @@ Where:
 #### Best Results
 - We fine tuned Resnet-18 on a dataset of 10k triplets of songs. Positive songs were generated using augmentations of the anchors and all layers of the ResNet were frozen except for the layers in the 4th and final residual block and the final fully connected layer. 
 - We compared the model against a baseline where we calculated the triplet loss of the anchor, positive, and negative song **without** feeding it into the model, averaging this value over the validation set.
-- We varied hyperparameters such as batch size, dropout, weight decay, and learning rate, all of which yielded largely similar results. We often observed signficiant over fitting after just 3-5 epochs, even with most of the layers frozen and dropout as high as 0.8. With more GPU compute, we could do a more thorough grid search and train for dozens/hundreds of epochs at a time, although it doesn't seem that validation loss would be significantly improved as it levels off around 3-5 epochs.
+- We varied hyperparameters such as batch size, dropout, weight decay, and learning rate, all of which yielded largely similar results. With more GPU compute, we could do a more thorough grid search and train for dozens/hundreds of epochs at a time. 
 - **Best Results:** We found the best performance using a batch size of 32, dropout rate of 0.5, a learning rate starting at $10^{-4}$ and all of the layers unfrozen, which yielded the training/validation curves shown above vs. the "no-model" baseline. 
 
 | Metric | Result |
