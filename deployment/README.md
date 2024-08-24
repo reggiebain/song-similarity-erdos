@@ -35,6 +35,7 @@
 | Recall | 0.3636 |
 | Nearest Neighbor Accuracy | 35.06% |
 | Baseline Accuracy|  54.54% |
+
 ![](../images/distance-distribution-resnet18-32-unfrozen.jpg "distances2")
 #### CNN from Scratch -- Batch Size 32, 10 epochs
 | **Metric** | **Value** |
@@ -47,6 +48,7 @@
 | Recall| 0.3636|
 | Nearest Neighbor Accuracy| 36.36%|
 | Baseline Accuracy| 40.25%|
+
 ![](../images/distance-distribution-cnn-32.jpg "distances3")
 #### References
 [1] https://www.kaggle.com/datasets/arpanpathak/original-and-cover-song-pairs
