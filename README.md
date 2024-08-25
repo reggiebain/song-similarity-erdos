@@ -92,26 +92,9 @@ Where:
 | Best Avg. Validation Triplet Loss| 0.1514 |
 | Baseline Avg. Triplet Loss | 0.9983 |
 | Pct Improvement over Baseline | 84.83% |
-#### How the Model Affects the Embeddings
-- Both our ResNet and CNN models show significant promise. With access to GPU compute beyond Kaggle's free tier allowance and more storage to use larger datasets, we're confident this model will continue to improve.
-- To show what this looks like for actual triplets in our validation set here is an example of the separation of embeddings with and without the model. The model increases their Euclidean distance:
-
-| Pair | Dist. w/ Model | Dist. w/o Model |
-| ---- | ---- | ---- |
-|Anchor-Positive | 0.7001| 0.2586 |
-|Anchor-Negative | 0.7498| 0.2715 |
-|Difference | -0.0497| -0.0129| 
-- We can also test the model on triplet previously unseen by our model. Below, you'll see a similar results table (note these are not the exact recordings):
-    1. [Procol Harum's song *A Whiter Shade of Pale*](https://www.youtube.com/watch?v=CJxpKlTID2Q) - Anchor
-    2. [*A Whiter Shade of Pale* by Annie Lennox](https://www.youtube.com/watch?v=VZqPoriYXho) - Positive
-    3. [*Abracadabra* by Steve Miller Band](https://www.youtube.com/watch?v=tY8B0uQpwZs) - Negative
-
-| Pair | Dist. w/ Model | Dist. w/o Model |
-| ---- | ---- | ---- |
-|Anchor-Positive | 0.4495| 0.2329 |
-|Anchor-Negative | 0.4890| 0.2492 |
-|Difference | -0.0395| -0.0163|   
+  
 - Even with minimal training and limited data, the model does learn to separate songs by similarity.
+- [See our analysis here](./deployment/README.md) for more specific information on how the model affects embeddings of individual songs.
 
 ## Notable Roadblocks
 #### Compute

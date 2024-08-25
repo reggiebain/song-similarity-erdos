@@ -5,6 +5,25 @@
 - Ideally, we would have sets of triplets that include either (1) different recordings of the same song or (2) covers of songs by different groups. Such data does exist, but is not readily available for ML purposes and does not exist in high enough quantity for any meaningful training of deep learning models.
 #### Creating Better Triplets
 - We experimented with various methods for doing so including trying different distance metrics, clustering methods for identifying similar/different groups of songs based on audio and/or meta data, etc.
+## How the Model Affects the Embeddings
+- Both our ResNet and CNN models show significant promise. With access to GPU compute beyond Kaggle's free tier allowance and more storage to use larger datasets, we're confident this model will continue to improve.
+- To show what this looks like for actual triplets in our validation set here is an example of the separation of embeddings with and without the model. The model increases their Euclidean distance:
+
+| Pair | Dist. w/ Model | Dist. w/o Model |
+| ---- | ---- | ---- |
+|Anchor-Positive | 0.7001| 0.2586 |
+|Anchor-Negative | 0.7498| 0.2715 |
+|Difference | -0.0497| -0.0129| 
+- We can also test the model on triplet previously unseen by our model. Below, you'll see a similar results table (note these are not the exact recordings):
+    1. [Procol Harum's song *A Whiter Shade of Pale*](https://www.youtube.com/watch?v=CJxpKlTID2Q) - Anchor
+    2. [*A Whiter Shade of Pale* by Annie Lennox](https://www.youtube.com/watch?v=VZqPoriYXho) - Positive
+    3. [*Abracadabra* by Steve Miller Band](https://www.youtube.com/watch?v=tY8B0uQpwZs) - Negative
+
+| Pair | Dist. w/ Model | Dist. w/o Model |
+| ---- | ---- | ---- |
+|Anchor-Positive | 0.4495| 0.2329 |
+|Anchor-Negative | 0.4890| 0.2492 |
+|Difference | -0.0395| -0.0163| 
 ## Results on Real Covers
 - Although our models (specifically the fine tuned ResNet-18 and CNN) performed well on our training/validation triplets described above, we wanted to try deploying the model on a set of triplets that included real covers of songs (which we would ideally have trained on if more were easily accessible). We used the [Kaggle dataset found here](https://www.kaggle.com/datasets/arpanpathak/original-and-cover-song-pairs) [1], which contains songs and known covers of these songs and tailored it to our own needs. [Our data set can be found on Kaggle here](https://www.kaggle.com/datasets/reggiebain/test-set-covers ) [2].
 - Creating embeddings using our various models, we looked at several metrics. Most notably, we calculated the nearest neighbor accuracy, which measures in how many cases did the model output embeddings where anchor and positive were closer (via euclidean distance) than anchor and negative. 
