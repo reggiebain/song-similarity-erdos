@@ -16,6 +16,7 @@ Throughout music history, composers and song writers have borrowed musical eleme
 ## Key Performance Indicators (KPIs)
 - The model minimizes the *triplet-loss* function between a triplet of (anchor, similar, different) audio files to the degree that it will differentite between similar and different audio files.
 - The model beats a baseline of calculating the triplet-loss between audio files **without** feeding those audio files into the model. We'll call this the "no-model" baseline.
+- Study the nature of famous plagiarism cases and how these songs may be related in a way detectable by various metrics typically used in audio analysis.
 ## EDA + Feature Engineering
 - We primarily focused on a Kaggle dataset that provided nearly 50k working links to previews of songs that could be used for audio analysis. The graphs below show some basic information about the release year, genre, and other tags of the provided songs.
 ![](images/genres_years.png)
@@ -71,7 +72,7 @@ Where:
 
 #### CNN from Scratch -- Batch Size 32, 10 epochs
 - Using a from scratch CNN shows tremendous promise with additional storage and compute.
-![](./images/cnn_batch64_drop05.png)
+![](./images/cnn-loss-plot.png)
 
 #### Best Results
 - We fine tuned Resnet-18 on a dataset of 10k triplets of songs. Positive songs were generated using augmentations of the anchors and all layers of the ResNet were frozen except for the layers in the 4th and final residual block and the final fully connected layer. 
@@ -88,11 +89,16 @@ Where:
 - Both our ResNet and CNN models show significant promise. With access to GPU compute beyond Kaggle's free tier allowance and more storage to use larger datasets, we're confident this model will continue to improve.
 ## Notable Roadblocks
 #### Compute
-- Any amateur deep learning project will face compute issues and this was no exception. We made use of the free GPU services offered by both Google Colab and Kaggle, but given the limited time per week the free versions offer, we had to use CPUs in many cases to test model hyperparameters, scrape data, etc. This resulted in extremely long loading times in many cases and limited (given the project timeframe) ability to test every hyperparameter and model architecture to the full extent we desired. For example, fine tuning ResNet18 on 10k triplets of songs for 6 epochs took ~7 hours on a Kaggle GPU, even when most model parameters were frozen. By default, Kaggle limits free tier users to jobs that take <= 12 hours to complete.
+- Any amateur deep learning project will face compute issues and this was no exception. We made use of the free GPU services offered by both Google Colab and Kaggle, but given the limited time per week the free versions offer, thoroughly experimenting with different model hyperparameters and training for many epochs was difficult.
+- For example, fine tuning ResNet18 on 10k triplets of songs for 6 epochs took ~7 hours on a Kaggle GPU, even when most model parameters were frozen. By default, Kaggle limits free tier users to jobs that take <= 12 hours to complete.
 #### Storage
-- Storage was a significant limitation as well. Storing the NumPy arrays of log-mel spectrograms of 10k songs in a Pickle file takes over 10GB of storage space. When working locally without significant cloud resources, the data had to be carefully batched so as to not exceed our available hard disk space or overwhelm limited available RAM. This prevented us from trying very large batch sizes (which speeds up training in many cases) or looking at larger datasets of more than 10k-20k songs at a time.
-#### Rate Limiting
+- Storage was another significant limitation. Storing the NumPy arrays of log-mel spectrograms of short samples of 10k songs in a Pickle/HD5 file takes over 10GB of storage space. When working locally (or even on Kaggle) without significant cloud resources, the data had to be carefully batched so as to not exceed our available hard disk space or alloted Kaggle storage. This also limited the length of audio samples that we could practically store/process.
+- Limited RAM available locally or on Kaggle/Colab was also a challenge, as it prevented us from trying very large batch sizes (which speeds up training in many cases) or looking at larger datasets of more than 10k-20k songs at a time.
+#### Rate Limiting & Download Restrictions
 - Various APIs impose strict rate limiting often making data scraping time consuming. We used standard techniques where we could to aid with this, but to truly train deep learning architectures one needs far more data than we were able to cobble together.
+- We were able to find full versions of some songs, particularly those involved in famous plagiarism cases, but this was a time consuming and storage-heavy process. In most cases, we relied on 10s-30s previews of songs from various sources.
+## Conclusions
+- We achieved our goal of creating a deep learning model that generates a lower triplet loss than the baseline model. This means our model is helping to push apart (in the 128 dimensional Euclidean space of *embeddings* of songs) songs that are different and bring together songs that are similar (particularly those that are altered versions of the originals). 
 ## References
 [1] http://millionsongdataset.com/
 
