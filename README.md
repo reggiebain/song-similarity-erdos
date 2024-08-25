@@ -22,11 +22,11 @@ Throughout music history, composers and song writers have borrowed musical eleme
 ![](images/genres_years.png)
 ![](images/tag_counts.png)
 ![](images/metadata.png)
-#### Augmenting Audio 
+### Augmenting Audio 
 - In order to generate triplets of anchors (a given song), positives (songs very similar to the anchor), and negatives (songs different from the anchor) we needed to match each song in our dataset with a similar and "not similar" song. 
 - **Negatives**: We selected random different songs within the dataset for each of our anchors. In some cases, random other songs will be likely have rather similar features to the anchor and in some cases they will be very different. This provides a diversity of harder and easier negatives for the model to learn.
 - **Positives:** We used the Python package Audiomentations to perform augmentations to each the anchor songs and generate an altered, but still very similar audio file. For each of the songs in our dataset, we used a variety of augmentations such as: adding noise, time stretching, pitch shifting, and signal to noise ratio alterations. **NOTE:** One way to improve our data quality would be to make some of these positives cover songs of the originals, but gathering a large amount of these was a challenge, and we reserved them primarily for testing the model.
-#### Log-Mel Spectrograms
+### Log-Mel Spectrograms
 - Our analysis primarily focused on modeling the log-mel spectrograms of raw audio. A mel spectrogram is a plot of the frequencies present in an audio clip over time, mapped onto the *mel scale* [5]. 
 - The mel scale is a perceptual scale that reflects how humans perceive sound, where frequencies are spaced in a way that better matches human hearing compared to a linear frequency scale.
 
