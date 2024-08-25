@@ -89,8 +89,8 @@ Where:
 
 | Metric | Result |
 | --- | --- |
-| Best Validation Triplet Loss| 0.1514 |
-| Baseline Triplet Loss | 0.9983 |
+| Best Avg. Validation Triplet Loss| 0.1514 |
+| Baseline Avg. Triplet Loss | 0.9983 |
 | Pct Improvement over Baseline | 84.83% |
 #### How the Model Affects the Embeddings
 - Both our ResNet and CNN models show significant promise. With access to GPU compute beyond Kaggle's free tier allowance and more storage to use larger datasets, we're confident this model will continue to improve.
