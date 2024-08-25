@@ -1,6 +1,7 @@
 # Good Composers Borrow, Great Composers Steal
 ## *Analyzing Audio Similarity using Deep Learning*
-#### Authors: Emelie Curl, Tong Shan, Glenn Young, Larsen Linov, Reginald Bain
+#### Authors: Reggie Bain, Emelie Curl, Larsen Linov, Tong Shan, Glenn Young
+
 ## Summary
 We worked on developing a model using several different approaches to analyze the similarity between songs by directly analyzing the audio. Using audio analysis techniques such as calculating log-mel spectrograms, audio augmentation, and transfer learning we established a way to compare the similarity between audio files for the purpose of detecting potential  plagiarism. Our work focuses on minimizing the so-called *triplet-loss* which aims to maximize the distance between images that are different while simultaenously minimizing the distance between similar images.
 ## Background
@@ -67,15 +68,16 @@ Where:
 - We also experimented with transformer models. [You can read more about this here.]()
 ## Results
 #### ResNet-18 Fine Tuned - Batch Size 64, Last Residual Block Unfrozen, 8 epochs
-- Our first instinct was to try freezing most of the layers. This yielded good results but significant overfitting (even with dropout at 0.8!)
+- Our first instinct was to try freezing most of the layers. We only unfroze the last "residual block", the final fully connected layers, and changed the input layer to only expect 1 channel (as opposed to 3 for RGB).
+- This yielded good results but significant overfitting (even with dropout as high as 0.8!)
 ![](./images/resnet-loss-plot-64-frozen-basenormalized.png) 
 
 #### ResNet-18 Fine Tuned - Batch Size 32, All Layers Unfrozen, 8 epochs
-- Unfreezing the lower layers helped reduce overfitting (dropout 0.5)
+- Unfreezing the lower layers helped reduce overfitting (dropout 0.5) and improved resuls as lower layers were allowed to adapt to our dataset.
 ![](./images/resnet-loss-plot-batch32-not-frozen.png)
 
 #### CNN from Scratch -- Batch Size 32, 10 epochs
-- Using a from scratch CNN shows tremendous promise with additional storage and compute.
+- Using a from scratch CNN shows tremendous promise with additional storage and compute. It lacks any obvious over fitting, 
 ![](./images/cnn-loss-plot.png)
 
 ### Summary & Best Results
@@ -90,8 +92,27 @@ Where:
 | Best Validation Triplet Loss| 0.1514 |
 | Baseline Triplet Loss | 0.9983 |
 | Pct Improvement over Baseline | 84.83% |
-
+#### How the Model Affects the Embeddings
 - Both our ResNet and CNN models show significant promise. With access to GPU compute beyond Kaggle's free tier allowance and more storage to use larger datasets, we're confident this model will continue to improve.
+- To show what this looks like for actual triplets in our validation set here is an example of the separation of embeddings with and without the model. The model increases their Euclidean distance:
+
+| Pair | Dist. w/ Model | Dist. w/o Model |
+| ---- | ---- | ---- |
+|Anchor-Positive | 0.7001| 0.2586 |
+|Anchor-Negative | 0.7498| 0.2715 |
+|Difference | -0.0497| -0.0129| 
+- We can also test the model on triplet previously unseen by our model. Below, you'll see a similar results table (note these are not the exact recordings):
+    1. [Procol Harum's song *A Whiter Shade of Pale*](https://www.youtube.com/watch?v=CJxpKlTID2Q) - Anchor
+    2. [*A Whiter Shade of Pale* by Annie Lennox](https://www.youtube.com/watch?v=VZqPoriYXho) - Positive
+    3. [*Abracadabra* by Steve Miller Band](https://www.youtube.com/watch?v=tY8B0uQpwZs) - Negative
+
+| Pair | Dist. w/ Model | Dist. w/o Model |
+| ---- | ---- | ---- |
+|Anchor-Positive | 0.4495| 0.2329 |
+|Anchor-Negative | 0.4890| 0.2492 |
+|Difference | -0.0395| -0.0163|   
+- Even with minimal training and limited data, the model does learn to separate songs by similarity.
+
 ## Notable Roadblocks
 #### Compute
 - Any amateur deep learning project will face compute issues and this was no exception. We made use of the free GPU services offered by both Google Colab and Kaggle, but given the limited time per week the free versions offer, thoroughly experimenting with different model hyperparameters and training for many epochs was difficult.
