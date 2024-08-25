@@ -8,7 +8,7 @@ Throughout music history, composers and song writers have borrowed musical eleme
 ## Dataset(s)
 - Our data primarily came from the Million Song Dataset [1] as well as several Kaggle datasets [2] where authors paired known songs with links to preview of the songs from various APIs. We also wrote scripts to find song previews where we did not already have them. 
 - We took 30s previews of the songs (in some case taking 10s clips of that 30s due to limitations in both compute and storage), and fed them into Librosa, a Python package built to work with and extract key features from audio. Although 30s clips are, obviously, not ideal for assessing the overall similarity of songs, we feel it is enough to capture many key features/sections of audio and can provide good enough data for a proof of concept of our methodology. This is also all that was available from mainstream APIs for obtaining 10k+ audio samples in a reasonable amount of time without significant cloud storage/compute.
-- We ultimately focused on the audio from a set of around 50,000 songs that can be found in /data/music_info.csv, a data set containing meta data and preview links to songs from the Kaggle dataset at [2]. This dataset also included information from the LastFM project [4] and a handful of engineered features such as *danceability, liveness, loudness* and many others., a project that aimed to compile songs from the Million Song Dataset and calculate a variety of features ranging from genre tags as well as identify cover songs, and track various musical features of songs. Of primary interest to us was the raw audio of songs rather than meta data or features calculated using said metadata.
+- We ultimately focused on the audio from a set of around 50,000 songs that can be found in [in our data folder](./data/music_info.csv), a data set containing meta data and preview links to songs from the Kaggle dataset at [2]. This dataset also included information from the LastFM project [4] and a handful of engineered features such as *danceability, liveness, loudness* and many others., a project that aimed to compile songs from the Million Song Dataset and calculate a variety of features ranging from genre tags as well as identify cover songs, and track various musical features of songs. Of primary interest to us was the raw audio of songs rather than meta data or features calculated using said metadata.
 ## Stakeholders
 - Artists looking to ensure their work is not plagiarized by others
 - Record companies and courts looking to have an objective measure of song similarity
@@ -38,7 +38,8 @@ Throughout music history, composers and song writers have borrowed musical eleme
 ## Modeling
 ### Triplet Loss
 
-Triplet loss is a loss function often used for tasks such as facial recognition. It aims to drive a model to create embeddings where similar items are closer together in the embedding space and dissimilar items are further apart. Smaller values (closer to 0) indicate that the model is successfully distinguishing between the anchor and negatives (in our case, the randomly chosen different songs) while clustering the anchor and positives (in our case the augmented songs).
+- Triplet loss is a loss function often used for tasks such as facial recognition. It aims to drive a model to create embeddings where similar items are closer together in the embedding space and dissimilar items are further apart. 
+- Smaller values (closer to 0) indicate that the model is successfully distinguishing between the anchor and negatives (in our case, the randomly chosen different songs) while clustering the anchor and positives (in our case the augmented songs).
 
 $\mathcal{L}(A, P, N) = \max(0, \|f(A) - f(P)\|_2 - \|f(A) - f(N)\|_2 + \alpha)$
 
@@ -74,10 +75,11 @@ Where:
 - Using a from scratch CNN shows tremendous promise with additional storage and compute.
 ![](./images/cnn-loss-plot.png)
 
-#### Best Results
-- We fine tuned Resnet-18 on a dataset of 10k triplets of songs. Positive songs were generated using augmentations of the anchors and all layers of the ResNet were frozen except for the layers in the 4th and final residual block and the final fully connected layer. 
-- We compared the model against a baseline where we calculated the triplet loss of the anchor, positive, and negative song **without** feeding it into the model, averaging this value over the validation set.
-- We varied hyperparameters such as batch size, dropout, weight decay, and learning rate, all of which yielded largely similar results. With more GPU compute, we could do a more thorough grid search and train for dozens/hundreds of epochs at a time. 
+### Summary & Best Results
+- We'll define *best* as the model that produced the lowest triplet loss in the limited window we had for training (which may not yield the best results with more resources/time).
+- The best performing model was the ResNet-18 fine tuned on a dataset of 10k triplets of songs. Positive songs were generated using augmentations of the anchors and all layers of the ResNet were frozen except for the layers in the 4th and final residual block and the final fully connected layer. 
+- **Baseline:** We calculated the triplet loss of the anchor, positive, and negative song **without** feeding it into the model, averaging this value over the validation set.
+- **Hyperparameters:** We varied batch size, dropout, weight decay, and learning rate to the extent we could With more GPU compute, we could do a more thorough grid search and train for dozens/hundreds of epochs at a time. 
 - **Best Results:** We found the best performance using a batch size of 32, dropout rate of 0.5, a learning rate starting at $10^{-4}$ and all of the layers unfrozen, which yielded the training/validation curves shown above vs. the "no-model" baseline. 
 
 | Metric | Result |
@@ -99,6 +101,7 @@ Where:
 - We were able to find full versions of some songs, particularly those involved in famous plagiarism cases, but this was a time consuming and storage-heavy process. In most cases, we relied on 10s-30s previews of songs from various sources.
 ## Conclusions
 - We achieved our goal of creating a deep learning model that generates a lower triplet loss than the baseline model. This means our model is helping to push apart (in the 128 dimensional Euclidean space of *embeddings* of songs) songs that are different and bring together songs that are similar (particularly those that are altered versions of the originals). 
+- The models were deployed on a test set of actual song-cover song pairs. [More information can be found here.](./deployment)
 ## References
 [1] http://millionsongdataset.com/
 
