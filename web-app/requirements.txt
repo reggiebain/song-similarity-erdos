@@ -1,0 +1,5 @@
+streamlit
+torch
+torchvision
+librosa
+plotly
