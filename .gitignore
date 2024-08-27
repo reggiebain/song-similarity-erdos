@@ -175,7 +175,7 @@ cython_debug/
 #.idea/
 ./modeling/fine-tuning-pretrained.ipynb
 /Users/reggiebain/erdos/song-similarity-erdos/data/paired_songs_spectrograms_test.pkl
-/Users/reggiebain/erdos/song-similarity-erdos/data/coversongs
-/Users/reggiebain/erdos/song-similarity-erdos/data/audio_download
+/Users/reggiebain/erdos/song-similarity-erdos/data/coversongs/
+/Users/reggiebain/erdos/song-similarity-erdos/data/audio_download/
 /Users/reggiebain/erdos/song-similarity-erdos/data/test_set_covers.pkl
 data/paired_songs_spectrograms_test.pkl
