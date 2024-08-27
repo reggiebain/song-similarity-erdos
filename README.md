@@ -106,9 +106,16 @@ Where:
 #### Rate Limiting & Download Restrictions
 - Various APIs impose strict rate limiting often making data scraping time consuming. We used standard techniques where we could to aid with this, but to truly train deep learning architectures one needs far more data than we were able to cobble together.
 - We were able to find full versions of some songs, particularly those involved in famous plagiarism cases, but this was a time consuming and storage-heavy process. In most cases, we relied on 10s-30s previews of songs from various sources.
-## Conclusions
+## Conclusions & Future Work
 - We achieved our goal of creating a deep learning model that generates a lower triplet loss than the baseline model. This means our model is helping to push apart (in the 128 dimensional Euclidean space of *embeddings* of songs) songs that are different and bring together songs that are similar (particularly those that are altered versions of the originals). 
 - The models were deployed on a test set of actual song-cover song pairs. [More information can be found here.](./deployment)
+- Going forward improving data quality is a top priority including:
+    1. Train for **many** more epochs by saving/reloading training progress and splitting up GPU time.
+    2. Get additional storage to store larger song samples (120+ seconds) as we were limited to samples of songs. 
+    3. Aggregate multiple recordings of songs and a larger set of corresponding cover songs using the LastFM dataset, which provides information on different recordings (but does not provide links to audio). Uses these to create more robust triplets with positives/negatives that are more difficult for the model to differentiate.
+    4. Study creating embeddings of more than just mel-spectrograms such as tempograms, chromagrams, and raw audio.
+- Additionally, we want to expand our model architectures to models pre trained on audio (such as VGGish, and certain transformer architectures such as Whisper). Ultimately, our goal would be to train an additional model on top of the models that create embeddings to classify whether songs might be plagiarised compared to an existing repository of songs where we have extracted the features.
+
 ## References
 [1] http://millionsongdataset.com/
 
