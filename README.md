@@ -1,7 +1,7 @@
 # Good Composers Borrow, Great Composers Steal
 ## *Analyzing Audio Similarity using Deep Learning*
 #### Authors: Reggie Bain, Emelie Curl, Larsen Linov, Tong Shan, Glenn Young
-
+#### Web App: https://song-similarity-webapp.streamlit.app/
 ## Summary
 We worked on developing a model using several different approaches to analyze the similarity between songs by directly analyzing the audio. Using audio analysis techniques such as calculating log-mel spectrograms, audio augmentation, and transfer learning we established a way to compare the similarity between audio files for the purpose of detecting potential  plagiarism. Our work focuses on minimizing the so-called *triplet-loss* which aims to maximize the distance between images that are different while simultaenously minimizing the distance between similar images.
 ## Background
@@ -23,7 +23,8 @@ Throughout music history, composers and song writers have borrowed musical eleme
 - We primarily focused on a Kaggle dataset that provided nearly 50k working links to previews of songs that could be used for audio analysis. The graphs below show some basic information about the release year, genre, and other tags of the provided songs.
 ![](images/genres_years.png)
 ![](images/tag_counts.png)
-![](images/metadata.png)
+- We also explored the meta data. [Plots of the meta data distributions can be found here](EDA).
+
 ### Augmenting Audio 
 - In order to generate triplets of anchors (a given song), positives (songs very similar to the anchor), and negatives (songs different from the anchor) we needed to match each song in our dataset with a similar and "not similar" song. 
 - **Negatives**: We selected random different songs within the dataset for each of our anchors. In some cases, random other songs will be likely have rather similar features to the anchor and in some cases they will be very different. This provides a diversity of harder and easier negatives for the model to learn.
