@@ -39,7 +39,7 @@ Throughout music history, composers and song writers have borrowed musical eleme
 
 ![](images/mel_spec_example.png "Mel Spec Example")
 ## Modeling
-- We explored a wide array of models, including a number that were pre-trained on audio or image data. Below we focus on CNNs and ResNet-18, but more information can be found about [our explorations here](EDA/Pre-Trained_Models_Examined).
+- We explored a wide array of models, including a number that were pre-trained on audio or image data. Below we focus on CNNs and ResNet-18, but [more information can be found about our explorations here](EDA/Pre-Trained_Models_Examined).
 ### Triplet Loss
 
 - Triplet loss is a loss function often used for tasks such as facial recognition. It aims to drive a model to create embeddings where similar items are closer together in the embedding space and dissimilar items are further apart. 
@@ -69,7 +69,7 @@ Where:
 - We also experimented with transformer models, including the [Audio Spectrogram Transformer (AST)](https://arxiv.org/abs/2104.01778) [6]. We downloaded [pre trained weights from HuggingFace here](https://huggingface.co/docs/transformers/main/en/model_doc/audio-spectrogram-transformer) to create embeddings that could be tuned to minimize triplet loss.
 - Transformer networks require a very different set of inputs than traditional CNNs or ResNet, needing positional embeddings which are key to the *self-attention mechanism*. Audio analysis is an excellent use case for transformers given the temporal nature of audio. The AST model (as well as OpenAI's famous network *Whisper*) is specifically designed to take mel-spectrograms as input.
 - The training and validation curves compared to baseline for this transformer [can be found here](images/transformer.png). The performance, even without significant fine tuning, is exceptional, beating the baseline by 94.51%. The AST model was originally trained on the [AudioSet](https://research.google.com/audioset/index.html), a robust audio dataset featuring 10s audio clips from over 10 million YouTube videos, over a million of which are music samples. Since it is *possible* that this dataset contains *some* information from *some* songs that we feature in our training/validation sets, we decided to focus on ResNet/CNN results. 
-- More info on our exploration of transformer models [can be found here](modeling/exploring_transformers_young).
+- More info on our [exploration of transformer models can be found here](modeling/exploring_transformers_young).
 ## Results
 #### ResNet-18 Fine Tuned - Batch Size 64, Last Residual Block Unfrozen, 8 epochs
 - Our first instinct was to try freezing most of the layers. We only unfroze the last "residual block", the final fully connected layers, and changed the input layer to only expect 1 channel (as opposed to 3 for RGB).
