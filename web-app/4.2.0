@@ -1,0 +1,18 @@
+Collecting nbformat
+  Downloading nbformat-5.10.4-py3-none-any.whl.metadata (3.6 kB)
+Collecting fastjsonschema>=2.15 (from nbformat)
+  Downloading fastjsonschema-2.20.0-py3-none-any.whl.metadata (2.1 kB)
+Requirement already satisfied: jsonschema>=2.6 in c:\programdata\anaconda3\envs\erdos-dl-proj\lib\site-packages (from nbformat) (4.23.0)
+Requirement already satisfied: jupyter-core!=5.0.*,>=4.12 in c:\programdata\anaconda3\envs\erdos-dl-proj\lib\site-packages (from nbformat) (5.7.2)
+Requirement already satisfied: traitlets>=5.1 in c:\programdata\anaconda3\envs\erdos-dl-proj\lib\site-packages (from nbformat) (5.14.3)
+Requirement already satisfied: attrs>=22.2.0 in c:\programdata\anaconda3\envs\erdos-dl-proj\lib\site-packages (from jsonschema>=2.6->nbformat) (24.2.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in c:\programdata\anaconda3\envs\erdos-dl-proj\lib\site-packages (from jsonschema>=2.6->nbformat) (2023.12.1)
+Requirement already satisfied: referencing>=0.28.4 in c:\programdata\anaconda3\envs\erdos-dl-proj\lib\site-packages (from jsonschema>=2.6->nbformat) (0.35.1)
+Requirement already satisfied: rpds-py>=0.7.1 in c:\programdata\anaconda3\envs\erdos-dl-proj\lib\site-packages (from jsonschema>=2.6->nbformat) (0.20.0)
+Requirement already satisfied: platformdirs>=2.5 in c:\programdata\anaconda3\envs\erdos-dl-proj\lib\site-packages (from jupyter-core!=5.0.*,>=4.12->nbformat) (4.2.2)
+Requirement already satisfied: pywin32>=300 in c:\programdata\anaconda3\envs\erdos-dl-proj\lib\site-packages (from jupyter-core!=5.0.*,>=4.12->nbformat) (305.1)
+Downloading nbformat-5.10.4-py3-none-any.whl (78 kB)
+   ---------------------------------------- 0.0/78.5 kB ? eta -:--:--   ----- ---------------------------------- 10.2/78.5 kB ? eta -:--:--   -------------------------- ------------- 51.2/78.5 kB 525.1 kB/s eta 0:00:01   ---------------------------------------- 78.5/78.5 kB 733.5 kB/s eta 0:00:00
+Downloading fastjsonschema-2.20.0-py3-none-any.whl (23 kB)
+Installing collected packages: fastjsonschema, nbformat
+Successfully installed fastjsonschema-2.20.0 nbformat-5.10.4
