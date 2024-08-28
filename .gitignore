@@ -180,3 +180,4 @@ cython_debug/
 /Users/reggiebain/erdos/song-similarity-erdos/data/test_set_covers.pkl
 data/paired_songs_spectrograms_test.pkl
 /Users/reggiebain/erdos/song-similarity-erdos/modeling/transformer_output/audio_spec_checkpoint.pth
+modeling/transformer_output/audio_spec_checkpoint.pth
