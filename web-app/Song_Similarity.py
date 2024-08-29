@@ -9,6 +9,7 @@ import path
 
 dir = path.Path(__file__).abspath()
 sys.path.append(dir.parent.parent)
+
 # %% Show Melspectrogram
 def show_melspect(audio_clip, sr):
     mel_spectrogram = librosa.feature.melspectrogram(y=audio_clip, sr=sr)
