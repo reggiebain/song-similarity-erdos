@@ -127,6 +127,6 @@ st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mar
 st.markdown('''
             [Project github](https://github.com/reggiebain/song-similarity-erdos/tree/main)
             ''')
-st.markdown('Made for the Erd&#337;s In1stitute\'s Deep Learning Boot Camp, Summer 2024.')
+st.markdown('Made for the Erd&#337;s Institute\'s Deep Learning Boot Camp, Summer 2024.')
 
 
